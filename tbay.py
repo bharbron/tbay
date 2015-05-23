@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, Float
 
 engine = create_engine('postgresql://action:action@localhost:5432/tbay')
 Session = sessionmaker(bind=engine)
@@ -16,5 +16,17 @@ class Item(Base):
   name = Column(String, nullable=False)
   description = Column(String)
   start_time = Column(DateTime, default=datetime.utcnow)
+  
+class User(Base):
+  __tablename__ = "users"
+  
+  id = Column(Integer, primary_key=True)
+  username = Column(String, nullable=False)
+  password = Column(String, nullable=False)
+  
+class Bid(Base):
+  __tablename__ = "bids"
+  id = Column(Integer, primary_key=True)
+  price = Column(Float, nullable=False)
 
 Base.metadata.create_all(engine)
